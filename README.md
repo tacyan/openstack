@@ -34,9 +34,14 @@ https://identity.tyo1.conoha.io/v2.0/tokens
 ```elixir
 # Initialize a client with username, password, tenantId.
 
-client = OpenStack.Client.new(username: "ConoHa", password: "paSSword123456#$%", tenantId: "487727e3921d44e3bfe7ebb337bf085e")
+client = OpenStack.Client.new(username: "ConoHa",
+                              password: "paSSword123456#$%",
+                              tenantId: "487727e3921d44e3bfe7ebb337bf085e")
+
 => %OpenStack.Client{password: "paSSword123456#$%",
- tenantId: "487727e3921d44e3bfe7ebb337bf085e", token: "", username: "ConoHa"}
+                    tenantId: "487727e3921d44e3bfe7ebb337bf085e",
+                    token: "",
+                    username: "ConoHa"}
 
 OpenStack.Client.get_token("http://example-conoha/v2.0/tokens", client)
 => HTTP/1.1 200 OK
@@ -61,48 +66,6 @@ Content-Type: application/json
         "type": "mailhosting",
         "name": "Mail Hosting Service"
       },
-      {
-        "endpoints": [
-          {
-            "region": "tyo1",
-            "publicURL": "https://dns-service.tyo1.conoha.io"
-          }
-        ],
-        "endpoints_links": [],
-        "type": "dns",
-        "name": "DNS Service"
-      },
-      {
-        "endpoints": [
-          {
-            "region": "tyo1",
-            "publicURL": "https://object-storage.tyo1.conoha.io/v1/nc_a4392c0ccba74485abd58ec123eca824"
-          }
-        ],
-        "endpoints_links": [],
-        "type": "object-store",
-        "name": "Object Storage Service"
-      },
-      {
-        "endpoints": [
-          {
-            "region": "sjc1",
-            "publicURL": "https://identity.sjc1.conoha.io/v2.0"
-          },
-          {
-            "region": "tyo1",
-            "publicURL": "https://identity.tyo1.conoha.io/v2.0"
-          },
-          {
-            "region": "sin1",
-            "publicURL": "https://identity.sin1.conoha.io/v2.0"
-          }
-        ],
-        "endpoints_links": [],
-        "type": "identity",
-        "name": "Identity Service"
-      }
-    ],
     "user": {
       "username": "gncu00000000",
       "roles_links": [],
@@ -129,9 +92,16 @@ Content-Type: application/json
 
 client = OpenStack.Client.auth_token("http://example-conoha/v2.0/tokens",client)
 => %OpenStack.Client{password: "paSSword123456#$%",
- tenantId: "487727e3921d44e3bfe7ebb337bf085e", token: "577727e3921d44e3bfe7ebb337bf085e", username: "ConoHa"}
+tenantId: "487727e3921d44e3bfe7ebb337bf085e", token: "577727e3921d44e3bfe7ebb337bf085e", username: "ConoHa"}
 
-OpenStack.Client.get("http://example-conoha/v2/:tenantId/volumes/",client)
+OpenStack.Client.get("http://example-conoha/v2/:tenantId/volumes/", client, options \\ [])
+=> {:ok, %HTTPoison.Response{body: ...}
+
+%HTTPoison.Response{body: ...}
+OpenStack.Client.get("http://example-conoha/v2/:tenantId/volumes/",client, params: %{options: "options"})
+=> {:ok, %HTTPoison.Response{body: ...}
+
+OpenStack.Client.get!("http://example-conoha/v2/:tenantId/volumes/",client, params: %{options: "options"})
 => []
 
 ```

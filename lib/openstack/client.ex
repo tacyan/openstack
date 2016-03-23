@@ -19,7 +19,7 @@ defmodule OpenStack.Client do
   end
 
   def get_token!(url, client) do
-  	headers = [{"content-type", "application/json"}]
+    headers = [{"content-type", "application/json"}]
     HTTPoison.post!(url, request_body(client), headers)
     |> get_token_process_response
   end
@@ -36,13 +36,13 @@ defmodule OpenStack.Client do
   end
 
   def auth_token(body) do
-  	Map.get(body, "access")
-		|> Map.get("token")
-		|> Map.get("id")
+    Map.get(body, "access")
+    |> Map.get("token")
+    |> Map.get("id")
   end
 
-	def get_token(url, client) do
-  	headers = [{"content-type", "application/json"}]
+  def get_token(url, client) do
+    headers = [{"content-type", "application/json"}]
     HTTPoison.post!(url, request_body(client), headers)
   end
 
@@ -51,9 +51,14 @@ defmodule OpenStack.Client do
     Map.put(client, :token, token)
   end
 
-  def get(url, client) do
+  def get(url, client, options \\ []) do
     headers = [{"X-Auth-Token", client.token},{"content-type", "application/json"}]
-    response = HTTPoison.get!(url, headers)
+    response = HTTPoison.get(url, headers, options)
+  end
+
+  def get!(url, client, options \\ []) do
+    headers = [{"X-Auth-Token", client.token},{"content-type", "application/json"}]
+    response = HTTPoison.get!(url, headers, options)
     |> process_response
   end
 
