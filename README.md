@@ -39,9 +39,9 @@ client = OpenStack.Client.new(username: "ConoHa",
                               tenantId: "487727e3921d44e3bfe7ebb337bf085e")
 
 => %OpenStack.Client{password: "paSSword123456#$%",
-                    tenantId: "487727e3921d44e3bfe7ebb337bf085e",
-                    token: "",
-                    username: "ConoHa"}
+                     tenantId: "487727e3921d44e3bfe7ebb337bf085e",
+                     token: "",
+                     username: "ConoHa"}
 
 OpenStack.Client.get_token("http://example-conoha/v2.0/tokens", client)
 => HTTP/1.1 200 OK
@@ -92,17 +92,16 @@ Content-Type: application/json
 
 user = OpenStack.Client.auth_token("http://example-conoha/v2.0/tokens",client)
 => %OpenStack.Client{password: "paSSword123456#$%",
-                    tenantId: "487727e3921d44e3bfe7ebb337bf085e",
-                    token: "577727e3921d44e3bfe7ebb337bf085e",
-                    username: "ConoHa"}
+                     tenantId: "487727e3921d44e3bfe7ebb337bf085e",
+                     token: "577727e3921d44e3bfe7ebb337bf085e",
+                     username: "ConoHa"}
+
 token = user.token
 
 or
 
 token = OpenStack.Client.get_token!("http://example-conoha/v2.0/tokens",client)
 => "577727e3921d44e3bfe7ebb337bf085e"
-
-eg.
 
 url = "http://example-conoha/v2/:tenantId/volumes/"
 

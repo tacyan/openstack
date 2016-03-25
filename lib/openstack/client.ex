@@ -58,7 +58,7 @@ defmodule OpenStack.Client do
 
   def get!(url, token, options \\ []) do
     headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
-    response = HTTPoison.get!(url, headers, options)
+    HTTPoison.get!(url, headers, options)
     |> process_response
   end
 
