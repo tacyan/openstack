@@ -41,25 +41,55 @@ defmodule OpenStack.Client do
     |> Map.get("id")
   end
 
-  def get_token(url, client) do
-    headers = [{"content-type", "application/json"}]
-    HTTPoison.post!(url, request_body(client), headers)
-  end
-
   def auth_token(url, client) do
     token = get_token!(url, client)
     Map.put(client, :token, token)
   end
 
-  def get(url, client, options \\ []) do
-    headers = [{"X-Auth-Token", client.token},{"content-type", "application/json"}]
-    response = HTTPoison.get(url, headers, options)
+  def get_token(url, client) do
+    headers = [{"content-type", "application/json"}]
+    HTTPoison.post!(url, request_body(client), headers)
   end
 
-  def get!(url, client, options \\ []) do
-    headers = [{"X-Auth-Token", client.token},{"content-type", "application/json"}]
+  def get(url, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.get(url, headers, options)
+  end
+
+  def get!(url, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
     response = HTTPoison.get!(url, headers, options)
     |> process_response
+  end
+
+  def post(url, body, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.post(url, body |> Poison.encode!, headers, options)
+  end
+
+  def post!(url, body, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.post!(url, body |> Poison.encode!, headers, options)
+  end
+
+  def put(url, body, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.put(url, body |> Poison.encode!, headers, options)
+  end
+
+  def put!(url, body, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.put!(url, body |> Poison.encode!, headers, options)
+  end
+
+  def delete(url, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.delete(url, headers, options)
+  end
+
+  def delete!(url, token, options \\ []) do
+    headers = [{"X-Auth-Token", token},{"content-type", "application/json"}]
+    HTTPoison.delete!(url, headers, options)
   end
 
 end

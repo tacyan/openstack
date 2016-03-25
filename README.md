@@ -90,18 +90,40 @@ Content-Type: application/json
   }
 }
 
-client = OpenStack.Client.auth_token("http://example-conoha/v2.0/tokens",client)
+user = OpenStack.Client.auth_token("http://example-conoha/v2.0/tokens",client)
 => %OpenStack.Client{password: "paSSword123456#$%",
-tenantId: "487727e3921d44e3bfe7ebb337bf085e", token: "577727e3921d44e3bfe7ebb337bf085e", username: "ConoHa"}
+                    tenantId: "487727e3921d44e3bfe7ebb337bf085e",
+                    token: "577727e3921d44e3bfe7ebb337bf085e",
+                    username: "ConoHa"}
+token = user.token
 
-OpenStack.Client.get("http://example-conoha/v2/:tenantId/volumes/", client, options \\ [])
+or
+
+token = OpenStack.Client.get_token!("http://example-conoha/v2.0/tokens",client)
+=> "577727e3921d44e3bfe7ebb337bf085e"
+
+eg.
+
+url = "http://example-conoha/v2/:tenantId/volumes/"
+
+OpenStack.Client.get(url, token, options \\ [])
 => {:ok, %HTTPoison.Response{body: ...}
 
-%HTTPoison.Response{body: ...}
-OpenStack.Client.get("http://example-conoha/v2/:tenantId/volumes/",client, params: %{options: "options"})
-=> {:ok, %HTTPoison.Response{body: ...}
+OpenStack.Client.get!(url, token, options \\ [])
+=> {body: ...}
 
-OpenStack.Client.get!("http://example-conoha/v2/:tenantId/volumes/",client, params: %{options: "options"})
+OpenStack.Client.get!(url, token, params: %{options: "options"})
 => []
 
+OpenStack.Client.post(url, body, token, options \\ [])
+=> []
+
+OpenStack.Client.post(url, %{ body: "body"}, token, options \\ [])
+=> []
+
+OpenStack.Client.put(url, body, token, options \\ [])
+=> []
+
+OpenStack.Client.delete(url, token, options \\ [])
+=> []
 ```
